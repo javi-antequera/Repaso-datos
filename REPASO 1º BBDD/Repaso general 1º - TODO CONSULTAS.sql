@@ -183,19 +183,29 @@ SELECT MAX(precio),MIN(precio),AVG(precio),COUNT(*) FROM fabricante f INNER JOIN
 /*16. Muestra el número total de productos que tiene cada uno de los fabricantes. El listado también debe
 incluir los fabricantes que no tienen ningún producto. El resultado mostrará dos columnas, una con el
 nombre del fabricante y otra con el número de productos que tiene. Ordene el resultado descendentemente por el número de productos.*/
-
+SELECT f.nombre,COUNT(p.codigo) FROM fabricante f LEFT JOIN producto p ON f.codigo=p.codigo_fabricante GROUP BY f.nombre;
 #17. Muestra el precio máximo, precio mínimo y precio medio de los productos de cada uno de los fabricantes. El resultado mostrará el nombre del fabricante junto con los datos que se solicitan.
+SELECT f.nombre,MAX(p.precio),MIN(p.precio),AVG(p.precio) FROM fabricante f INNER JOIN producto p ON f.codigo=p.codigo_fabricante GROUP BY f.nombre;
 #18. Muestra el precio máximo, precio mínimo, precio medio y el número total de productos de los fabricantes que tienen un precio medio superior a 200€. No es necesario mostrar el nombre del fabricante, con el código del fabricante es suficiente.
+SELECT f.codigo,MAX(p.precio),MIN(p.precio),AVG(p.precio) FROM fabricante f INNER JOIN producto p ON f.codigo=p.codigo_fabricante GROUP BY f.codigo HAVING AVG(p.precio)>200;
 #19. Muestra el nombre de cada fabricante, junto con el precio máximo, precio mínimo, precio medio y el  número total de productos de los fabricantes que tienen un precio medio superior a 200€. Es necesario mostrar el nombre del fabricante.
+SELECT f.nombre,MAX(p.precio),MIN(p.precio),AVG(p.precio),COUNT(*) FROM producto p INNER JOIN fabricante f ON f.codigo=p.codigo_fabricante GROUP BY f.codigo HAVING AVG(p.precio)>200;
 #20. Calcula el número de productos que tienen un precio mayor o igual a 180€.
+SELECT COUNT(*) FROM producto WHERE precio>=180;
 #21. Calcula el número de productos que tiene cada fabricante con un precio mayor o igual a 180€.
+SELECT f.nombre, COUNT(*)FROM producto p INNER JOIN fabricante f ON p.codigo_fabricante = f.codigo WHERE p.precio>=180 GROUP BY p.codigo_fabricante;
 #22. Lista el precio medio los productos de cada fabricante, mostrando solamente el código del fabricante.
+SELECT codigo_fabricante,AVG(precio) FROM producto GROUP BY codigo_fabricante;
 #23. Lista el precio medio los productos de cada fabricante, mostrando solamente el nombre del fabricante.
+SELECT f.nombre,AVG(p.precio) FROM producto p INNER JOIN fabricante f ON p.codigo_fabricante = f.codigo GROUP BY f.nombre;
 #24. Lista los nombres de los fabricantes cuyos productos tienen un precio medio mayor o igual a 150€.
+SELECT f.nombre,AVG(p.precio) FROM producto p INNER JOIN fabricante f ON p.codigo_fabricante = f.codigo WHERE p.precio>=180 GROUP BY f.nombre;
 #25. Devuelve un listado con los nombres de los fabricantes que tienen 2 o más productos.
+SELECT f.nombre FROM fabricante f INNER JOIN producto p  ON p.codigo_fabricante = f.codigo GROUP BY f.codigo HAVING COUNT(p.codigo)>=2;
 /*26. Devuelve un listado con los nombres de los fabricantes y el número de productos que tiene cada uno con
 un precio superior o igual a 220 €. No es necesario mostrar el nombre de los fabricantes que no tienen
 productos que cumplan la condición.*/
+
 /*27. Devuelve un listado con los nombres de los fabricantes y el número de productos que tiene cada uno con
 un precio superior o igual a 220 €. El listado debe mostrar el nombre de todos los fabricantes, es decir, si
 hay algún fabricante que no tiene productos con un precio superior o igual a 220€ deberá aparecer en el
